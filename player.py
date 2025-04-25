@@ -66,6 +66,7 @@ class Bobber:
         self.x = x
         self.y = y
         self.direction = direction
+        self.original_direction = direction
         self.state = "launched"
         self.dither = 0
 
@@ -74,6 +75,7 @@ class Bobber:
             self.dither += 0.2
             self.x += (self.direction)
             self.y += 1
+            if (self.direction == 1 and self.x > camera.max_x) or (self.direction == -1 and self.x < camera.min_x): self.direction = -self.direction
             if self.y > water.y:
                 self.dither = 1
                 self.state = "immerged"
@@ -83,7 +85,7 @@ class Bobber:
             self.y = self.y + math.sin(pyxel.frame_count/10)/5
         if self.state == "retrieving":
             self.dither -= 0.1
-            self.x += -self.direction
+            self.x += -self.original_direction
             self.y -= 1
             generateSplash(self.x, self.y, 1, 1)
             if self.x > player.x and self.x < player.x + player.width:
