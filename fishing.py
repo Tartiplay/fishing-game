@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         pyxel.init(240, 160)
         camera.init(0, 0)
-        pyxel.load("fishing.pyxres")
+        pyxel.load("game.pyxres")
         water.init(80, 480)
         self.objects = []
         self.objects.append(Fish(50, -20, 16, 8))
