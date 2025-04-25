@@ -11,11 +11,14 @@ class Game:
         camera.init(0, 0)
         pyxel.load("game.pyxres")
         water.init(80, 480)
-        player.init(240, 80-16)
+        player.init(440, 80-16)
         self.bobber = []
         self.objects = []
         self.objects.append(Fish(50, -20, 16, 8))
         self.objects.append(Fish(100, -40, range=200, max_speed=2))
+        self.launch_forces = ["L", "M", "H"]
+        self.launch_force = 0
+        self.launch_count = 0
         pyxel.run(self.update, self.draw)
 #
     def update(self):
@@ -29,11 +32,20 @@ class Game:
         if pyxel.btn(pyxel.KEY_RIGHT):
             if len(self.bobber) < 1: player.move_right()
 
-        if pyxel.btnp(pyxel.KEY_SPACE):
+        if pyxel.btn(pyxel.KEY_SPACE):
             if len(self.bobber) < 1:
-                self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction))
+                self.launch_count += 1
+                if self.launch_count % 10 == 0:
+                    self.launch_force = (self.launch_force + 1) % 3
+
+        if pyxel.btnr(pyxel.KEY_SPACE):
+            if self.launch_count > 0:
+                self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction, self.launch_force+1))
+                self.launch_count = 0
+                self.launch_force = 0
             else:
-                self.bobber[0].state = "retrieving"
+                if len(self.bobber) >= 1:
+                    self.bobber[0].state = "retrieving"
 
         player.update()
 
@@ -80,5 +92,9 @@ class Game:
         for bobber in self.bobber:
             pyxel.line(player.x + (0 if player.direction == -1 else player.width), player.y+5, bobber.x, bobber.y,7)
             bobber.draw()
+
+        # Draw UI
+        if self.launch_count > 0:
+            pyxel.text(player.x+player.width/2, player.y - 10, self.launch_forces[self.launch_force], [11, 9, 8][self.launch_force])
 
 Game()
