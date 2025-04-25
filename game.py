@@ -25,9 +25,9 @@ class Game:
         if pyxel.btn(pyxel.KEY_DOWN):
             pass
         if pyxel.btn(pyxel.KEY_LEFT):
-            player.move_left()
+            if len(self.bobber) < 1: player.move_left()
         if pyxel.btn(pyxel.KEY_RIGHT):
-            player.move_right()
+            if len(self.bobber) < 1: player.move_right()
 
         if pyxel.btnp(pyxel.KEY_SPACE):
             if len(self.bobber) < 1:
@@ -78,6 +78,7 @@ class Game:
 
         # Draw bobber
         for bobber in self.bobber:
+            pyxel.line(player.x + (0 if player.direction == -1 else player.width), player.y+5, bobber.x, bobber.y,7)
             bobber.draw()
 
 Game()
