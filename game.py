@@ -3,7 +3,7 @@ from camera import camera
 from water import water
 from fish import Fish
 from particles import particles
-from player import Player
+from player import player, Bobber
 
 class Game:
     def __init__(self):
@@ -11,7 +11,8 @@ class Game:
         camera.init(0, 0)
         pyxel.load("game.pyxres")
         water.init(80, 480)
-        self.player = Player(240, 80-16)
+        player.init(240, 80-16)
+        self.bobber = []
         self.objects = []
         self.objects.append(Fish(50, -20, 16, 8))
         self.objects.append(Fish(100, -40, range=200, max_speed=2))
@@ -24,9 +25,22 @@ class Game:
         if pyxel.btn(pyxel.KEY_DOWN):
             pass
         if pyxel.btn(pyxel.KEY_LEFT):
-            self.player.move_left()
+            player.move_left()
         if pyxel.btn(pyxel.KEY_RIGHT):
-            self.player.move_right()
+            player.move_right()
+
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            if len(self.bobber) < 1:
+                self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction))
+            else:
+                self.bobber[0].state = "retrieving"
+
+        player.update()
+
+        for bobber in self.bobber:
+            bobber.update()
+            if bobber.state == "deleted":
+                self.bobber.remove(bobber)
 
         # Update objects
         for obj in self.objects:
@@ -42,7 +56,7 @@ class Game:
 
 
         # Update camera position
-        camera.center_to_object(self.player)
+        camera.center_to_object(player)
         camera.update()
 
     def draw(self):
@@ -60,6 +74,10 @@ class Game:
             particle.draw()
 
         # Draw player
-        self.player.draw()
+        player.draw()
+
+        # Draw bobber
+        for bobber in self.bobber:
+            bobber.draw()
 
 Game()
