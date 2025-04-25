@@ -3,6 +3,7 @@ from camera import camera
 from water import water
 from fish import Fish
 from particles import particles
+from player import Player
 
 class Game:
     def __init__(self):
@@ -10,6 +11,7 @@ class Game:
         camera.init(0, 0)
         pyxel.load("game.pyxres")
         water.init(80, 480)
+        self.player = Player(240, 80-16)
         self.objects = []
         self.objects.append(Fish(50, -20, 16, 8))
         self.objects.append(Fish(100, -40, range=200, max_speed=2))
@@ -18,21 +20,14 @@ class Game:
     def update(self):
         # Controls
         if pyxel.btn(pyxel.KEY_UP):
-            camera.move(0, -1)
+            pass
         if pyxel.btn(pyxel.KEY_DOWN):
-            camera.move(0, 1)
+            pass
         if pyxel.btn(pyxel.KEY_LEFT):
-            camera.move(-1, 0)
+            self.player.move_left()
         if pyxel.btn(pyxel.KEY_RIGHT):
-            camera.move(1, 0)
-        if pyxel.btnp(pyxel.KEY_Q):
-            camera.rumble_v(20, 5)
-        if pyxel.btnp(pyxel.KEY_A):
-            camera.rumble_h(10, 15)
+            self.player.move_right()
 
-        if pyxel.btnp(pyxel.KEY_D):
-            self.objects[0].state = "deleted"
-        
         # Update objects
         for obj in self.objects:
             obj.update()
@@ -47,6 +42,7 @@ class Game:
 
 
         # Update camera position
+        camera.center_to_object(self.player)
         camera.update()
 
     def draw(self):
@@ -62,5 +58,8 @@ class Game:
         # Draw particles
         for particle in particles:
             particle.draw()
+
+        # Draw player
+        self.player.draw()
 
 Game()
