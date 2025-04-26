@@ -138,14 +138,34 @@ class Frame:
     
     
     def draw(self):
+        # Orange line
         pyxel.rectb(
             x = self.xmin,
-            y = Y,
+            y = self.y,
             w = self.size,
             h = TILE_SIZE,
             col = 9
         )
-
+    
+    
+    def draw_bg(self):
+        # Background line
+        pyxel.rect(
+            x = self.xmin - 10,
+            y = self.y - 13,
+            w = self.size + 20,
+            h = TILE_SIZE + 20,
+            col = 4
+        )
+        
+        # Orange border
+        pyxel.rectb(
+            x = self.xmin - 10,
+            y = self.y - 13,
+            w = self.size + 20,
+            h = TILE_SIZE + 20,
+            col = 9
+        )
 
 
 class FishCursor:
@@ -351,6 +371,9 @@ class FishingMiniGame:
 
     
     def draw(self):
+        
+        # Draw frame bg
+        self.frame.draw_bg()
                
         # Draw pattern
         self.pattern.draw()
@@ -362,12 +385,20 @@ class FishingMiniGame:
         self.cursor.draw()
         
         # Draw distance bar - frame
+        pyxel.rect(
+            x = self.frame.xmin,
+            y = self.frame.y - 7,
+            w = self.frame.size,
+            h = 4,
+            col = 4
+        )
+                
         pyxel.rectb(
             x = self.frame.xmin,
             y = self.frame.y - 7,
             w = self.frame.size,
             h = 4,
-            col = 3
+            col = 11
         )
         
         # Draw distance bar - fill
@@ -382,5 +413,5 @@ class FishingMiniGame:
             y = self.frame.y - 7,
             w = width,
             h = 4,
-            col = 3
+            col = 11
         )
