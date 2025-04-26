@@ -51,6 +51,7 @@ class Game:
                 if tile == tile_fish_hard:
                     self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=2, difficulty="hard"))
         self.Nb_fish = len(self.objects)
+        pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)
 
     def update(self):
