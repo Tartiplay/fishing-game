@@ -73,7 +73,7 @@ class Bobber:
         self.state = "launched"
         self.been_immerged = False
         self.dither = 0
-        self.hamecon = False
+        self.hamecon = Hamecon(self.x,self.y)
 
     def update(self):
         if self.state == "launched":
@@ -86,7 +86,7 @@ class Bobber:
                 self.state = "immerged"
                 self.y = water.y
                 generateSplash(self.x, water.y, 30, 3)
-                self.hamecon = Hamecon(self.x,self.y)
+                self.hamecon.x, self.hamecon.y = self.x, self.y
                 if self.direction != self.original_direction:
                     if (self.direction == 1 and self.x > player.x + player.width) or (self.direction == -1 and self.x < player.x+player.width/2):
                         self.original_direction *= -1

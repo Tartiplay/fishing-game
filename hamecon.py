@@ -1,5 +1,8 @@
 import pyxel
 from camera import camera
+import math
+from water import water
+
 class Hamecon:
     IMG = 1
     U = 32
@@ -17,11 +20,16 @@ class Hamecon:
         self.vitesse_hamecon = 2
         self.cible_x = 0
         self.cible_y = 0
-        self.depth_limit = camera.max_y
+        self.width = self.WIDTH
+        self.height = self.HEIGHT
+        self.depth_limit = camera.max_y - self.height
+        self.max_x = camera.max_x - self.width
+        self.min_x = camera.min_x
 
     def update(self, bobberX, bobberY):
         self.x = bobberX
         self.dep_hamecon(bobberY)
+        self.x = self.x + ((self.y - water.y)/10)*math.sin(pyxel.frame_count/20)
     
     def move_left(self):
         self.x -= self.DX
