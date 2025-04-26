@@ -103,7 +103,7 @@ class Game:
             # Create fishing minigame
             self.fishing = FishingMiniGame(
                 viewport = VIEWPORT, camera_x = camera.x, camera_y = camera.y,
-                distance = 300, difficulty = "easy"
+                distance = 300, difficulty = self.catched_fish[0].difficulty
             )
             
             # If we are fishing, run the minigame until we reach success of failure
