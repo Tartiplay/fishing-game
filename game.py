@@ -1,6 +1,7 @@
 import pyxel
 from camera import camera, VIEWPORT
 from water import water
+from background import background
 from fish import Fish
 from particles import particles
 from player import player, Bobber
@@ -106,6 +107,9 @@ class Game:
             elif self.fishing.status == FishingStatus.ABORT:
                 self.message = "You let the fish go with your bait"
                 self.fishing = False
+                
+        # --- UPDATE BACKGROUND ---
+        background.update(player)
         
 
     def draw(self):
@@ -113,6 +117,7 @@ class Game:
 
         # Draw background
         pyxel.bltm(0, 0, 0, 0, 0, 480, 320)
+        background.draw()
         water.draw()
 
         # Draw objects
