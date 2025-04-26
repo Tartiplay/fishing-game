@@ -97,6 +97,8 @@ class Game:
 
             obj.update()
             if obj.state == "deleted":
+                pyxel.play(2, 7)
+                camera.rumble_v()
                 self.objects.remove(obj)
             else:
                 # test collision with hamecon and fish
