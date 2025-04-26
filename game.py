@@ -1,9 +1,10 @@
 import pyxel
-from camera import camera
+from camera import camera, VIEWPORT
 from water import water
 from fish import Fish
 from particles import particles
 from player import player, Bobber
+from minigame import FishingMiniGame, FishingStatus
 
 class Game:
     def __init__(self):
@@ -19,33 +20,37 @@ class Game:
         self.launch_forces = ["L", "M", "H"]
         self.launch_force = 0
         self.launch_count = 0
+        self.fishing = False # Store fishing minigame here, false = not playing the minigame
         pyxel.run(self.update, self.draw)
 #
     def update(self):
         # Controls
-        if pyxel.btn(pyxel.KEY_UP):
-            pass
-        if pyxel.btn(pyxel.KEY_DOWN):
-            pass
-        if pyxel.btn(pyxel.KEY_LEFT):
-            if len(self.bobber) < 1: player.move_left()
-        if pyxel.btn(pyxel.KEY_RIGHT):
-            if len(self.bobber) < 1: player.move_right()
+        
+        # Only move player or bobber when we are not fishing
+        if not self.fishing:
+            if pyxel.btn(pyxel.KEY_UP):
+                pass
+            if pyxel.btn(pyxel.KEY_DOWN):
+                pass
+            if pyxel.btn(pyxel.KEY_LEFT):
+                if len(self.bobber) < 1: player.move_left()
+            if pyxel.btn(pyxel.KEY_RIGHT):
+                if len(self.bobber) < 1: player.move_right()
 
-        if pyxel.btn(pyxel.KEY_SPACE):
-            if len(self.bobber) < 1:
-                self.launch_count += 1
-                if self.launch_count % 15 == 0:
-                    self.launch_force = (self.launch_force + 1) % 3
+            if pyxel.btn(pyxel.KEY_SPACE):
+                if len(self.bobber) < 1:
+                    self.launch_count += 1
+                    if self.launch_count % 15 == 0:
+                        self.launch_force = (self.launch_force + 1) % 3
 
-        if pyxel.btnr(pyxel.KEY_SPACE):
-            if self.launch_count > 0:
-                self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction, self.launch_force+1))
-                self.launch_count = 0
-                self.launch_force = 0
-            else:
-                if len(self.bobber) >= 1:
-                    self.bobber[0].state = "retrieving"
+            if pyxel.btnr(pyxel.KEY_SPACE):
+                if self.launch_count > 0:
+                    self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction, self.launch_force+1))
+                    self.launch_count = 0
+                    self.launch_force = 0
+                else:
+                    if len(self.bobber) >= 1:
+                        self.bobber[0].state = "retrieving"
 
         player.update()
 
@@ -70,6 +75,38 @@ class Game:
         # Update camera position
         camera.center_to_object(player)
         camera.update()
+        
+        # =============================================================================
+        # TMP: Press F to start fishing
+        if not self.fishing and pyxel.btnp(pyxel.KEY_F):
+            
+            # Create fishing minigame
+            self.fishing = FishingMiniGame(
+                viewport = VIEWPORT, camera_x = camera.x, camera_y = camera.y,
+                distance = 300, difficulty = "easy"
+            )
+            
+            # If we are fishing, run the minigame until we reach success of failure
+        elif self.fishing:
+           
+            # Run minigame
+            self.fishing.update()
+            
+            # Do something on success
+            if self.fishing.status == FishingStatus.SUCCESS:
+                self.message = "Well done, you caught the fish"
+                self.fishing = False
+            
+            # Do something on failure
+            elif self.fishing.status == FishingStatus.FAILURE:
+                self.message = "The fish is gone with your bait"
+                self.fishing = False
+            
+            # Do something on abort fishing
+            elif self.fishing.status == FishingStatus.ABORT:
+                self.message = "You let the fish go with your bait"
+                self.fishing = False
+        
 
     def draw(self):
         pyxel.cls(0)
@@ -92,6 +129,10 @@ class Game:
         for bobber in self.bobber:
             pyxel.line(player.x + (0 if player.direction == -1 else player.width), player.y+5, bobber.x, bobber.y,7)
             bobber.draw()
+            
+        # Draw fishing minigame
+        if self.fishing:
+            self.fishing.draw()
 
         # Draw UI
         if self.launch_count > 0:

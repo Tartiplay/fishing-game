@@ -1,5 +1,9 @@
 import pyxel
 
+
+VIEWPORT = [240, 160]
+
+
 class Camera:
 
     def __init__(self):
@@ -8,7 +12,7 @@ class Camera:
         self.rumble_reduction = 0
         self.fx_duration = 0
 
-    def init(self, x, y, viewport=[240, 160], limits=[0, 0, 480, 320]):
+    def init(self, x, y, viewport=VIEWPORT, limits=[0, 0, 480, 320]):
         self.x, self.y = None, None
         self.screen_width, self.screen_height = viewport
         self.set_position(x, y)
