@@ -1,6 +1,7 @@
 import pyxel
 from water import water
 from particles import generateSplash, generateBubble
+from camera import camera
 import math
 
 
@@ -42,6 +43,7 @@ class Fish:
             self.y += self.speed_y
             if self.y >= water.y:
                 pyxel.play(2, 8)
+                camera.rumble_v()
                 self.state = "entering_water"
                 generateSplash(self.x+self.width/2, water.y, 50, self.speed_y)
                 generateBubble(self.x+self.width/2, water.y, 10, self.speed_y)
