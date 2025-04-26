@@ -112,15 +112,15 @@ H_03 = [
 # Store fishing mini-game patterns and speeds by difficulty
 PATTERNS = {
     'easy': {
-        'speeds': { 'slow': 0.5, 'medium': 1, 'fast': 3 },
+        'speeds': { 'slow': -2, 'medium': 1, 'fast': 3 },
         'patterns': [E_01, E_02, E_03]
     },
     'regular': {
-        'speeds': { 'slow': 0.5, 'medium': 1, 'fast': 3 },
+        'speeds': { 'slow': -2, 'medium': 1, 'fast': 3 },
         'patterns': [R_01, R_02, R_03]
     },
     'hard': {
-        'speeds': { 'slow': 0.5, 'medium': 1, 'fast': 3 },
+        'speeds': { 'slow': -2, 'medium': 1, 'fast': 3 },
         'patterns': [H_01, H_02, H_03]
     }
 }
@@ -300,7 +300,7 @@ class Pattern:
         
         
 class FishingMiniGame:
-    def __init__(self, viewport, camera_x, camera_y, distance, difficulty):
+    def __init__(self, viewport, camera_x, camera_y, distance = 300, difficulty = "easy"):
                 
         # Related objects
         self.frame = Frame(viewport, camera_x, camera_y)
@@ -316,7 +316,7 @@ class FishingMiniGame:
         
         # Distance bar progress
         self.distance_max = distance
-        self.distance_current = 0
+        self.distance_current = 40
         self.distance_speed = 1
         
         # Fishing mini-game events
