@@ -84,6 +84,7 @@ class Bobber:
             if self.y > water.y:
                 self.dither = 1
                 self.state = "immerged"
+                pyxel.play(2, 8)
                 self.y = water.y
                 generateSplash(self.x, water.y, 30, 3)
                 self.hamecon.x, self.hamecon.y = self.x, self.y
@@ -95,6 +96,7 @@ class Bobber:
             self.hamecon.update(self.x,self.y)
             self.y = self.y + math.sin(pyxel.frame_count/10)/5
             if self.hamecon.y < self.y:
+                pyxel.play(2, 8)
                 self.state = "retrieving"
         if self.state == "retrieving":
             self.dither -= 0.1
