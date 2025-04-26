@@ -132,12 +132,12 @@ class Game:
                 self.catched_fish.pop()
             
             # Do something on abort fishing
-            elif self.fishing.status == FishingStatus.ABORT:
-                self.message = "You let the fish go with your bait"
-                self.fishing = False
-                self.catched_fish[0].state = "deleted"
-                self.bobber[0].hamecon.state = "balancing"
-                self.catched_fish.pop()
+            # elif self.fishing.status == FishingStatus.ABORT:
+            #     self.message = "You let the fish go with your bait"
+            #     self.fishing = False
+            #     self.catched_fish[0].state = "deleted"
+            #     self.bobber[0].hamecon.state = "balancing"
+            #     self.catched_fish.pop()
                 
         # --- UPDATE BACKGROUND ---
         background.update(player)
