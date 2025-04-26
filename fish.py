@@ -2,13 +2,26 @@ import pyxel
 from water import water
 from particles import generateSplash, generateBubble
 
+
+
+IMG = 1
+FISH_SPRITE = {
+    "easy": { "u": 0, "v": 24, "w": 16, "h": 8 },
+    "regular": { "u": 0, "v": 32, "w": 16, "h": 8 },
+    "hard": { "u": 0, "v": 40, "w": 8, "h": 8 },
+}
+
+
+
 class Fish:
     def __init__(self, x, y, width=8, height=8, range=100, max_speed=10, acceleration=0.01, difficulty="easy"):
         self.start_x = x  # Position initiale x
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
+        # self.width = width
+        # self.height = height
+        self.width = FISH_SPRITE[difficulty]["w"]
+        self.height = FISH_SPRITE[difficulty]["h"]
         self.direction = 1  # 1 pour droite, -1 pour gauche
         self.range = range  # Plage de mouvement
         self.speed_x = 0  # Vitesse de déplacement en x
@@ -70,6 +83,16 @@ class Fish:
             generateBubble(self.x+self.width/2, self.y+self.height/2, 100, 1)
 
     def draw(self):
-        pyxel.rect(self.x, self.y, self.width, self.height, 11)  # Couleur 11 (jaune)
+        # pyxel.rect(self.x, self.y, self.width, self.height, 11)
+        pyxel.blt(
+            x = self.x,
+            y = self.y,
+            img = IMG,
+            u = FISH_SPRITE[self.difficulty]["u"],
+            v = FISH_SPRITE[self.difficulty]["v"],
+            w = FISH_SPRITE[self.difficulty]["w"] * self.direction,
+            h = FISH_SPRITE[self.difficulty]["h"],
+            colkey = 0
+        )
 
 fishes = []

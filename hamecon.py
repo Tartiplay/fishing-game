@@ -54,10 +54,13 @@ class Hamecon:
                     self.y -= self.vitesse_hamecon
 
     def draw(self):
-            pyxel.blt(self.x,
-                self.y,
-                self.IMG,
-                self.U,
-                self.V,
-                self.WIDTH,
-                self.HEIGHT)
+        pyxel.blt(
+            x = self.x,
+            y = self.y,
+            img = self.IMG,
+            u = self.U,
+            v = self.V,
+            w = self.WIDTH,
+            h = self.HEIGHT,
+            colkey = 0
+        )
