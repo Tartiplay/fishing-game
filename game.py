@@ -136,6 +136,7 @@ class Game:
             if self.bobber[0].state == "immerged":
                 if self.bobber[0].hamecon:
                     self.bobber[0].hamecon.draw()
+                    pyxel.line(self.bobber[0].x,self.bobber[0].y,self.bobber[0].hamecon.x,self.bobber[0].hamecon.y,7)
             
         # Draw fishing minigame
         if self.fishing:

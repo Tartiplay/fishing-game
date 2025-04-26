@@ -11,7 +11,6 @@ class Hamecon:
 
     def __init__(self, bobberX, bobberY):
         self.x = bobberX
-        #self.base_player_y = bobberY
         self.y = bobberY
         self.en_peche = 0
         self.range_canne = 60
