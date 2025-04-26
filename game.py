@@ -35,7 +35,7 @@ class Game:
         if pyxel.btn(pyxel.KEY_SPACE):
             if len(self.bobber) < 1:
                 self.launch_count += 1
-                if self.launch_count % 10 == 0:
+                if self.launch_count % 15 == 0:
                     self.launch_force = (self.launch_force + 1) % 3
 
         if pyxel.btnr(pyxel.KEY_SPACE):
@@ -95,6 +95,8 @@ class Game:
 
         # Draw UI
         if self.launch_count > 0:
-            pyxel.text(player.x+player.width/2, player.y - 10, self.launch_forces[self.launch_force], [11, 9, 8][self.launch_force])
+            pyxel.circ(player.x+player.width/2+1, player.y - 10, 5, 7)
+            pyxel.circb(player.x+player.width/2+1, player.y - 10, 5, [11, 9, 8][self.launch_force])
+            pyxel.text(player.x+player.width/2, player.y - 12, self.launch_forces[self.launch_force], [11, 9, 8][self.launch_force])
 
 Game()
