@@ -30,6 +30,7 @@ class Game:
         self.launch_count = 0
         self.fishing = False
         self.catched_fish = []
+        self.Fish_catched = 0
 
         tile_fish_easy = (1, 0)
         tile_fish_regular = (2, 0)
@@ -49,7 +50,7 @@ class Game:
                     self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=1.5, difficulty="regular"))
                 if tile == tile_fish_hard:
                     self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=2, difficulty="hard"))
-
+        self.Nb_fish = len(self.objects)
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -141,6 +142,7 @@ class Game:
                 self.fishing = False
                 self.catched_fish[0].state = "deleted"
                 self.bobber[0].hamecon.state = "balancing"
+                self.Fish_catched +=1
                 self.catched_fish.pop()
             
             # Do something on failure
@@ -202,5 +204,8 @@ class Game:
             pyxel.circ(player.x+player.width/2+1, player.y - 10, 5, 7)
             pyxel.circb(player.x+player.width/2+1, player.y - 10, 5, [11, 9, 8][self.launch_force])
             pyxel.text(player.x+player.width/2, player.y - 12, self.launch_forces[self.launch_force], [11, 9, 8][self.launch_force])
+        
+        #Draw count fish
+        pyxel.text(camera.x, camera.y, str(self.Fish_catched) + " / " + str(self.Nb_fish) + "Fishs catched", 10)
 
 Game()
