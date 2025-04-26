@@ -41,6 +41,7 @@ class Fish:
             self.speed_y += math.exp(-self.y/30) * 0.08
             self.y += self.speed_y
             if self.y >= water.y:
+                pyxel.play(2, 8)
                 self.state = "entering_water"
                 generateSplash(self.x+self.width/2, water.y, 50, self.speed_y)
                 generateBubble(self.x+self.width/2, water.y, 10, self.speed_y)
