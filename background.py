@@ -1,4 +1,5 @@
 import pyxel
+from camera import camera
 
 
 TILESIZE = 8
@@ -14,7 +15,7 @@ class Background:
     
     def __init__(self):
         # Player movement
-        self.previous_player_x = 400
+        self.previous_camera_x = 400
         
         # Hills
         self.hills_patches_x = [
@@ -31,7 +32,7 @@ class Background:
     
     def update(self, player):
         # Calc change in player position
-        delta_x = player.x - self.previous_player_x
+        delta_x = camera.x - self.previous_player_x
         
         # Update layers based on parallax factor
         for i, hill_x in enumerate(self.hills_patches_x):
@@ -43,7 +44,7 @@ class Background:
             self.mountains_x[i] = mountain_x
         
         # Update the previous player x position
-        self.previous_player_x = player.x
+        self.previous_camera_x = camera.x
         
     
     def draw(self):
