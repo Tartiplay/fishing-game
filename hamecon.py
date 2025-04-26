@@ -46,8 +46,9 @@ class Hamecon:
          #Descente du hamecon
          if self.state == "balancing":
             if self.y < self.depth_limit :
-                if pyxel.btn(pyxel.KEY_DOWN):
-                    self.y += self.vitesse_hamecon
+                # if pyxel.btn(pyxel.KEY_DOWN):
+                #     self.y += self.vitesse_hamecon
+                self.y += 0.5
             #Remontée du hamecon limité à la hauteur du bouchon       
             if self.y > bobberY :
                 if pyxel.btn(pyxel.KEY_UP):
