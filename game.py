@@ -4,6 +4,7 @@ from water import water
 from fish import Fish
 from particles import particles
 from player import player, Bobber
+from hamecon import Hamecon
 from minigame import FishingMiniGame, FishingStatus
 
 class Game:
@@ -129,6 +130,12 @@ class Game:
         for bobber in self.bobber:
             pyxel.line(player.x + (0 if player.direction == -1 else player.width), player.y+5, bobber.x, bobber.y,7)
             bobber.draw()
+        
+        #Draw hook
+        if len(self.bobber) > 0:
+            if self.bobber[0].state == "immerged":
+                if self.bobber[0].hamecon:
+                    self.bobber[0].hamecon.draw()
             
         # Draw fishing minigame
         if self.fishing:
