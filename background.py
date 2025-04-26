@@ -15,7 +15,7 @@ class Background:
     
     def __init__(self):
         # Player movement
-        self.previous_camera_x = 400
+        self.previous_camera_x = 0
         
         # Hills
         self.hills_patches_x = [
