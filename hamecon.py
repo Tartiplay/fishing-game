@@ -25,11 +25,13 @@ class Hamecon:
         self.depth_limit = camera.max_y - self.height
         self.max_x = camera.max_x - self.width
         self.min_x = camera.min_x
+        self.state = "balancing"
 
     def update(self, bobberX, bobberY):
-        self.x = bobberX
-        self.dep_hamecon(bobberY)
-        self.x = self.x + ((self.y - water.y)/10)*math.sin(pyxel.frame_count/20)
+        if self.state == "balancing":
+            self.x = bobberX
+            self.dep_hamecon(bobberY)
+            self.x = self.x + ((self.y - water.y)/10)*math.sin(pyxel.frame_count/20)
     
     def move_left(self):
         self.x -= self.DX
@@ -42,13 +44,14 @@ class Hamecon:
     def dep_hamecon(self, bobberY):
          #Déplacement du hamecon
          #Descente du hamecon
-         if self.y < self.depth_limit :
-            if pyxel.btn(pyxel.KEY_DOWN):
-                self.y += self.vitesse_hamecon
-         #Remontée du hamecon limité à la hauteur du bouchon       
-         if self.y > bobberY :
-             if pyxel.btn(pyxel.KEY_UP):
-                 self.y -= self.vitesse_hamecon
+         if self.state == "balancing":
+            if self.y < self.depth_limit :
+                if pyxel.btn(pyxel.KEY_DOWN):
+                    self.y += self.vitesse_hamecon
+            #Remontée du hamecon limité à la hauteur du bouchon       
+            if self.y > bobberY :
+                if pyxel.btn(pyxel.KEY_UP):
+                    self.y -= self.vitesse_hamecon
 
     def draw(self):
             pyxel.blt(self.x,
