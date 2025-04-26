@@ -1,6 +1,7 @@
 import pyxel
 from water import water
 from particles import generateSplash, generateBubble
+import math
 
 
 
@@ -37,7 +38,7 @@ class Fish:
     def update(self):
         # Si le poisson est en l'air, le faire tomber
         if self.state == "air":
-            self.speed_y += 0.1
+            self.speed_y += math.exp(-self.y/30) * 0.08
             self.y += self.speed_y
             if self.y >= water.y:
                 self.state = "entering_water"

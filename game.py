@@ -20,16 +20,36 @@ class Game:
         camera.init(0, 0, limits=[0, 0, 320, 240])
         pyxel.load("game.pyxres")
         water.init(80, 480)
-        player.init(20, 50)
+        player.init(300, 50)
         self.bobber = []
         self.objects = []
-        self.objects.append(Fish(50, -20, 16, 8))
-        self.objects.append(Fish(100, -40, range=200, max_speed=2))
+        #self.objects.append(Fish(50, -20, 16, 8))
+        #self.objects.append(Fish(100, -40, range=200, max_speed=2))
         self.launch_forces = ["L", "M", "H"]
         self.launch_force = 0
         self.launch_count = 0
         self.fishing = False
         self.catched_fish = []
+
+        tile_fish_easy = (1, 0)
+        tile_fish_regular = (2, 0)
+        tile_fish_hard = (3, 0)
+
+        # Create fishes
+        for x in range(0, 40):
+            for y in range(0, 31):
+                tile = pyxel.tilemaps[0].pget(x, y)
+                pyxel.tilemaps[0].pset(x, y, (0, 1))
+                fish_range = pyxel.rndi(50, 200)
+                if (x*8 + fish_range) > camera.max_x:
+                    fish_range = camera.max_x - x*8
+                if tile == tile_fish_easy:
+                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=1, difficulty="easy"))
+                if tile == tile_fish_regular:
+                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=1.5, difficulty="regular"))
+                if tile == tile_fish_hard:
+                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=2, difficulty="hard"))
+
         pyxel.run(self.update, self.draw)
 
     def update(self):

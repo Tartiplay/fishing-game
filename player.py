@@ -94,6 +94,8 @@ class Bobber:
             self.been_immerged = True
             self.hamecon.update(self.x,self.y)
             self.y = self.y + math.sin(pyxel.frame_count/10)/5
+            if self.hamecon.y < self.y:
+                self.state = "retrieving"
         if self.state == "retrieving":
             self.dither -= 0.1
             self.x += -self.original_direction*self.launch_force
