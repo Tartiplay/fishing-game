@@ -206,6 +206,6 @@ class Game:
             pyxel.text(player.x+player.width/2, player.y - 12, self.launch_forces[self.launch_force], [11, 9, 8][self.launch_force])
         
         #Draw count fish
-        pyxel.text(camera.x, camera.y, str(self.Fish_catched) + " / " + str(self.Nb_fish) + "Fishs catched", 10)
+        pyxel.text(camera.x, camera.y, str(self.Fish_catched) + " / " + str(self.Nb_fish) + " Fishes catched", 10)
 
 Game()
