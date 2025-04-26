@@ -32,7 +32,7 @@ class Background:
     
     def update(self, player):
         # Calc change in player position
-        delta_x = camera.x - self.previous_player_x
+        delta_x = camera.x - self.previous_camera_x
         
         # Update layers based on parallax factor
         for i, hill_x in enumerate(self.hills_patches_x):
