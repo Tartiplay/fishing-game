@@ -3,7 +3,7 @@ from camera import camera, VIEWPORT
 from water import water
 from background import background
 from fish import Fish
-from particles import particles
+from particles import particles, generateSplash
 from player import player, Bobber
 from hamecon import Hamecon
 from minigame import FishingMiniGame, FishingStatus
@@ -54,7 +54,10 @@ class Game:
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        # Controls
+        # Rain
+        if pyxel.frame_count % 10 == 0:
+            for x in range(0, camera.max_x, 8):
+                generateSplash(x, -20, 2, 1)
         
         # Only move player or bobber when we are not fishing
         if pyxel.btn(pyxel.KEY_UP):
@@ -207,5 +210,8 @@ class Game:
         
         #Draw count fish
         pyxel.text(camera.x, camera.y, str(self.Fish_catched) + " / " + str(self.Nb_fish) + " Fishes catched", 10)
+
+        if len(self.objects) == 0:
+            pyxel.text(camera.x, camera.y + 10, "You've caught %s fishes. Are you proud ?!"%self.Fish_catched, 10)
 
 Game()
