@@ -17,10 +17,10 @@ def test_collision(obj1, obj2):
 class Game:
     def __init__(self):
         pyxel.init(240, 160)
-        camera.init(0, 0)
+        camera.init(0, 0, limits=[0, 0, 320, 240])
         pyxel.load("game.pyxres")
         water.init(80, 480)
-        player.init(440, 50)
+        player.init(20, 50)
         self.bobber = []
         self.objects = []
         self.objects.append(Fish(50, -20, 16, 8))
@@ -31,7 +31,7 @@ class Game:
         self.fishing = False
         self.catched_fish = []
         pyxel.run(self.update, self.draw)
-#
+
     def update(self):
         # Controls
         
