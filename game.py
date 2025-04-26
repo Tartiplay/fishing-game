@@ -8,6 +8,12 @@ from player import player, Bobber
 from hamecon import Hamecon
 from minigame import FishingMiniGame, FishingStatus
 
+def test_collision(obj1, obj2):
+    return (obj1.x < obj2.x + obj2.width and
+            obj1.x + obj1.width > obj2.x and
+            obj1.y < obj2.y + obj2.height and
+            obj1.y + obj1.height > obj2.y)
+
 class Game:
     def __init__(self):
         pyxel.init(240, 160)
@@ -23,6 +29,7 @@ class Game:
         self.launch_force = 0
         self.launch_count = 0
         self.fishing = False
+        self.catched_fish = []
         pyxel.run(self.update, self.draw)
 #
     def update(self):
@@ -62,9 +69,16 @@ class Game:
 
         # Update objects
         for obj in self.objects:
+
             obj.update()
             if obj.state == "deleted":
                 self.objects.remove(obj)
+            else:
+                # test collision with hamecon and fish
+                if len(self.bobber) > 0 and test_collision(self.bobber[0].hamecon, obj) and self.fishing == False:
+                    print("Collision with fish")
+                    obj.state = "catched"
+                    self.catched_fish.append(obj)
        
         # Update particles
         for particle in particles:
@@ -84,7 +98,7 @@ class Game:
         
         # =============================================================================
         # TMP: Press F to start fishing
-        if not self.fishing and pyxel.btnp(pyxel.KEY_F):
+        if not self.fishing and len(self.catched_fish) > 0:
             
             # Create fishing minigame
             self.fishing = FishingMiniGame(
@@ -94,6 +108,9 @@ class Game:
             
             # If we are fishing, run the minigame until we reach success of failure
         elif self.fishing:
+
+            # Block hamecon
+            self.bobber[0].hamecon.state = "catch"
            
             # Run minigame
             self.fishing.update()
@@ -102,16 +119,25 @@ class Game:
             if self.fishing.status == FishingStatus.SUCCESS:
                 self.message = "Well done, you caught the fish"
                 self.fishing = False
+                self.catched_fish[0].state = "deleted"
+                self.bobber[0].hamecon.state = "balancing"
+                self.catched_fish.pop()
             
             # Do something on failure
             elif self.fishing.status == FishingStatus.FAILURE:
                 self.message = "The fish is gone with your bait"
                 self.fishing = False
+                self.catched_fish[0].state = "deleted"
+                self.bobber[0].hamecon.state = "balancing"
+                self.catched_fish.pop()
             
             # Do something on abort fishing
             elif self.fishing.status == FishingStatus.ABORT:
                 self.message = "You let the fish go with your bait"
                 self.fishing = False
+                self.catched_fish[0].state = "deleted"
+                self.bobber[0].hamecon.state = "balancing"
+                self.catched_fish.pop()
                 
         # --- UPDATE BACKGROUND ---
         background.update(player)
