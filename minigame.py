@@ -189,7 +189,7 @@ class FishCursor:
     
     def move(self):
         # Accelerate to right when SPACE is pressed
-        if pyxel.btn(pyxel.KEY_SPACE):
+        if pyxel.btn(pyxel.KEY_SPACE) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_A):
             
             # If speed < max, accelerate
             if self.velocity < self.max_velocity:
@@ -366,8 +366,8 @@ class FishingMiniGame:
             elif self.distance_current < 0: # FAILURE
                 self.status = FishingStatus.FAILURE
             
-            elif pyxel.btnp(pyxel.KEY_BACKSPACE): # ABORT
-                self.status = FishingStatus.ABORT
+            # elif pyxel.btnp(pyxel.KEY_BACKSPACE): # ABORT
+            #     self.status = FishingStatus.ABORT
 
     
     def draw(self):
