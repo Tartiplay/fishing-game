@@ -51,7 +51,7 @@ class Hamecon:
                 self.y += 0.5
             #Remontée du hamecon limité à la hauteur du bouchon       
             if self.y > bobberY :
-                if pyxel.btn(pyxel.KEY_UP):
+                if pyxel.btn(pyxel.KEY_UP) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_UP):
                     self.y -= self.vitesse_hamecon
 
     def draw(self):

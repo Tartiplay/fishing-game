@@ -61,22 +61,18 @@ class Game:
                 generateSplash(x, -20, 2, 1)
         
         # Only move player or bobber when we are not fishing
-        if pyxel.btn(pyxel.KEY_UP):
-            pass
-        if pyxel.btn(pyxel.KEY_DOWN):
-            pass
-        if pyxel.btn(pyxel.KEY_LEFT):
+        if pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT):
             if len(self.bobber) < 1: player.move_left()
-        if pyxel.btn(pyxel.KEY_RIGHT):
+        if pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT):
             if len(self.bobber) < 1: player.move_right()
 
-        if pyxel.btn(pyxel.KEY_SPACE):
+        if pyxel.btn(pyxel.KEY_SPACE) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_A):
             if len(self.bobber) < 1:
                 self.launch_count += 1
                 if self.launch_count % 15 == 0:
                     self.launch_force = (self.launch_force + 1) % 3
 
-        if pyxel.btnr(pyxel.KEY_SPACE):
+        if pyxel.btnr(pyxel.KEY_SPACE) or pyxel.btnr(pyxel.GAMEPAD1_BUTTON_A):
             if self.launch_count > 0:
                 self.bobber.append(Bobber(player.x + (0 if player.direction == -1 else player.width), player.y, player.direction, self.launch_force+1))
                 self.launch_count = 0
