@@ -98,8 +98,7 @@ class Game:
                 self.objects.remove(obj)
             else:
                 # test collision with hamecon and fish
-                if len(self.bobber) > 0 and test_collision(self.bobber[0].hamecon, obj) and self.fishing == False:
-                    print("Collision with fish")
+                if len(self.bobber) > 0 and test_collision(self.bobber[0].hamecon, obj) and obj.state == "water" and self.fishing == False:
                     obj.state = "catched"
                     self.catched_fish.append(obj)
        
