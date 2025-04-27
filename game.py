@@ -20,7 +20,7 @@ class Game:
         camera.init(0, 0, limits=[0, 0, 320, 240])
         pyxel.load("game.pyxres")
         water.init(80, 480)
-        player.init(300, 50)
+        player.init(160, 50)
         self.bobber = []
         self.objects = []
         #self.objects.append(Fish(50, -20, 16, 8))
@@ -45,11 +45,11 @@ class Game:
                 if (x*8 + fish_range) > camera.max_x:
                     fish_range = camera.max_x - x*8
                 if tile == tile_fish_easy:
-                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=1, difficulty="easy"))
+                    self.objects.append(Fish(x*8, -(y*8), range=fish_range, max_speed=1, difficulty="easy", stop_y=y*8))
                 if tile == tile_fish_regular:
-                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=1.5, difficulty="regular"))
+                    self.objects.append(Fish(x*8, -(y*8), range=fish_range, max_speed=1.5, difficulty="regular", stop_y=y*8))
                 if tile == tile_fish_hard:
-                    self.objects.append(Fish(x*8, -(y*8)/3, range=fish_range, max_speed=2, difficulty="hard"))
+                    self.objects.append(Fish(x*8, -(y*8), range=fish_range, max_speed=2, difficulty="hard", stop_y=y*8))
         self.Nb_fish = len(self.objects)
         pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)

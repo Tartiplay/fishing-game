@@ -16,7 +16,7 @@ FISH_SPRITE = {
 
 
 class Fish:
-    def __init__(self, x, y, width=8, height=8, range=100, max_speed=10, acceleration=0.01, difficulty="easy"):
+    def __init__(self, x, y, width=8, height=8, range=100, max_speed=10, acceleration=0.01, difficulty="easy", stop_y=50):
         self.start_x = x  # Position initiale x
         self.x = x
         self.y = y
@@ -31,6 +31,7 @@ class Fish:
         self.max_speed = max_speed  # Vitesse maximale
         self.acceleration = acceleration  # Taux d'accélération
         self.difficulty = difficulty
+        self.stop_y = stop_y
         if self.y < water.y:
             self.state = "air"
         else:
@@ -39,7 +40,7 @@ class Fish:
     def update(self):
         # Si le poisson est en l'air, le faire tomber
         if self.state == "air":
-            self.speed_y += math.exp(-self.y/30) * 0.08
+            self.speed_y += 0.1
             self.y += self.speed_y
             if self.y >= water.y:
                 pyxel.play(2, 8)
@@ -49,11 +50,13 @@ class Fish:
                 generateBubble(self.x+self.width/2, water.y, 10, self.speed_y)
         
         if self.state == "entering_water":
-            self.speed_y -= 0.2
-            self.y += self.speed_y
-            if self.speed_y <= 0:
-                self.state = "water"
+            self.y += self.speed_y/3
+
+            # Clamp la position y pour ne pas dépasser le point d'arrêt
+            if self.y >= self.stop_y:
+                self.y = self.stop_y
                 self.speed_y = 0
+                self.state = "water"
         
         if self.state == "water":
             # Position des bornes
