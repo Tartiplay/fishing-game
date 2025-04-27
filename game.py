@@ -112,6 +112,8 @@ class Game:
         # Update camera position
         if self.fishing:
             pass
+        elif len(self.bobber) > 0 and self.bobber[0].state in ["launched","retrieving"]:
+            camera.center_to_object(self.bobber[0])
         elif len(self.bobber) > 0 and self.bobber[0].state == "immerged":
             camera.center_to_object(self.bobber[0].hamecon)
         else:

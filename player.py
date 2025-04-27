@@ -74,6 +74,8 @@ class Bobber:
         self.been_immerged = False
         self.dither = 0
         self.hamecon = Hamecon(self.x,self.y)
+        self.width = self.WIDTH
+        self.height = self.HEIGHT
 
     def update(self):
         if self.state == "launched":
